@@ -10,7 +10,7 @@
 % ===> Paolo deadline: ~15 June
 
 % Max: 25 words
-\title{Development and optimization of a vision-based navigation algorithm for space-representative hardware}
+\title{Development and optimization of a robust vision-based navigation algorithm for space-representative hardware}
 \author[(1)]{Giacomo Battaglia}
 \author[(3)]{Anthea Comellini}
 \author[(4)]{Francesco Capolupo}
@@ -28,8 +28,16 @@
 
 % Max: 500 words
 \begin{abstract}
-
-
+    Close proximity operations with non-cooperative targets represent a very challenging scenario for the GNC system. 
+    Indeed, as the target does not give any information about its state, the chaser must rely solely on visual information to determine the relative pose (i.e., position, attitude) of the target with respect to the chaser. 
+    That visual information is retrieved through the use of a monocular camera, chosen for its advantageous properties in terms of power, volume and mass budget in GNC system design. 
+    The vision-based navigation pipeline is composed by two blocks: the image processing, which extracts contextual information from the input images to get useful data for the pose estimation task, and the navigation filter, which refines pose (and pose derivatives) estimation using time dependencies.
+    This entire algorithm shall run on space hardware. Hence, the design and development chain shall be adapted to enable support in constraining environments in terms of computational speed and memory availability. 
+    Moreover, when using an AI-based image processing, much attention shall be made into the deployment process of the network.
+    This article presents the optimization and deployment of an AI-based vision-based navigation algorithm on representative space hardware. 
+    The navigation pipeline is tailored to be robust to uncertainties in center-of-mass and inertia properties of the target, both on the image processing and the navigation filter. 
+    The former is trained on a novel dataset, rendered with the high-fidelity SpiCam renderer by Thales Alenia Space, featuring a variable-shape target. The latter includes the uncertainties in the center of mass and the inertia of the target in a Schmidt-Kalman framework.
+    The AI-related part of the algorithm, i.e., the image processing, is embedded in specialized hardware of different type, namely CPU, GPU or FPGA boards.  
 \end{abstract}
 
 \section*{Acknowledgments}
