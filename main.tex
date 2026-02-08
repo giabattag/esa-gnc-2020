@@ -27,6 +27,7 @@
 \maketitle
 
 % Max: 500 words
+% 489 words
 \begin{abstract}
     Close proximity operations with non-cooperative targets represent a very challenging scenario for the GNC system. 
     Indeed, as the target does not give any information about its state, the chaser must rely solely on visual information to determine the relative pose (i.e., position, attitude) of the target with respect to the chaser. 
@@ -37,11 +38,14 @@
     This article presents the optimization and deployment of an AI-based vision-based navigation algorithm on representative space hardware. 
     The navigation pipeline is tailored to be robust to uncertainties in center-of-mass and inertia properties of the target, both on the image processing and the navigation filter. 
     The former is trained on a novel dataset, rendered with the high-fidelity SpiCam renderer by Thales Alenia Space, featuring a variable-shape target. The latter includes the uncertainties in the center of mass and the inertia of the target in a Schmidt-Kalman framework.
-    First, a preliminary assessment of the algorithm performance on hardware was derisked in both the image processing and the navigation filter, which showed consistent performance 
+    Before full processor-in-the-loop validation, a preliminary assessment of the algorithm performance on hardware is de-risked in both the image processing and the navigation filter, outlining the different orders of magnitude of the latency performance in various devices.
+    Then, the full algorithm pipeline is implemented for open-loop processor-in-the-loop testing, using representative boards for the two functional blocks.
     First, the AI-related part of the algorithm, i.e., the image processing, is embedded in specialized hardware of different type, namely CPU, GPU or FPGA boards.
     To do that, dedicated optimizations are performed, such as quantization and graph optimizations, depending on the target hardware.
     Secondly, the navigation filter is run on a single-core GR740 (LEON4) board, using single-precision arithmetics, which represents common current onboard computer hardware in space systems. 
-    
+    Depending on the performance of the platform, the pipeline is adapted in terms of navigation filter tuning and measurement frequency.
+    For instance, lower accuracy is expected after 8-bit neural network quantization for FPGA, and a much lower measurement frequency is envisioned for the full-CPU implementation compared to GPU and FPGA.
+    This analysis is performed on a synthetic testing trajectory rendered with the SpiCam tool, consisting of a close inspection relative orbit around a non-cooperative tumbling target in LEO.
 \end{abstract}
 
 \section*{Acknowledgments}
