@@ -95,7 +95,7 @@
 %% Footer setup -------------------------------------------------------------
 %  Author name command.
 \newcommand{\footauth}[1] {
-  \fancyfoot[L]{\textit{ESA GNC 2020 – #1}}
+  \fancyfoot[L]{\textit{ESA GNC 2026 – #1}}
 }
 
 %  Add text and page number.
