@@ -3,22 +3,19 @@
 % Abstract submission deadline: 27 February
 % => TASF deadline: skipped
 % ==> First draft deadline: ~10 February
-% ===> Paolo deadline: ~6 February
 % Paper submission deadline: 31 July
 % => TASF deadline: ~15 July
 % ==> First draft deadline: ~22 June
-% ===> Paolo deadline: ~15 June
 
 % Max: 25 words
 \title{Development and optimization of a robust vision-based navigation algorithm for space-representative hardware}
 \author[(1)]{Giacomo Battaglia}
-\author[(3)]{Anthea Comellini}
-\author[(4)]{Francesco Capolupo}
-\author[(2)]{Paolo Panicucci}
-\affil[(1)]{Politecnico di Milano, piazza Leonardo da Vinci, 32, 20133 Milan, giacomo.battaglia@polimi.it}
-\affil[(2)]{Politecnico di Milano, piazza Leonardo da Vinci, 32, 20133 Milan, paolo.panicucci@polimi.it}
-\affil[(3)]{Thales Alenia Space, Cannes, 06150, France, anthea.comellini@thalesaleniaspace.com}
-\affil[(4)]{European Space Agency, Noordwijk, 2200 AG, Netherlands, francesco.capolupo@esa.int}
+\author[(2)]{Anthea Comellini}
+\author[(3)]{Francesco Capolupo}
+\author[(1)]{Paolo Panicucci}
+\affil[(1)]{Department of Aerospace Science and Technology, Politecnico di Milano, Via Giuseppe la Masa, 34, 20156 Milan, \{giacomo.battaglia, paolo.panicucci\}@polimi.it}
+\affil[(2)]{Thales Alenia Space, Cannes, 06150, France, anthea.comellini@thalesaleniaspace.com}
+\affil[(3)]{European Space Agency, Noordwijk, 2200 AG, Netherlands, francesco.capolupo@esa.int}
 
 \footauth{G. Battaglia, A. Comellini, F. Capolupo, P. Panicucci}
 
@@ -31,16 +28,16 @@
 % Max: 500 words
 % ~460 words
 \begin{abstract}
-    Close proximity operations with non-cooperative targets represent a very challenging scenario for the GNC system. 
-    Indeed, as the target does not give any information about its state, the chaser must rely solely on visual information to determine the relative pose (i.e. position, attitude) of the target with respect to the chaser. 
-    That visual information is retrieved through the use of a monocular camera, chosen for its advantageous properties in terms of power, volume, and mass budget in GNC system design. 
-    The vision-based navigation pipeline is made up of two blocks: the image processing, which extracts contextual information from the input images to obtain useful data for the pose estimation task, and the navigation filter, which refines the pose estimation (and pose derivatives) using time dependencies.
-    This entire algorithm shall run on space hardware. Hence, the design and development chain shall be adapted to enable support in constraining environments in terms of computational speed and memory availability. Furthermore, when using AI-based image processing, careful attention must be paid to the network deployment process.
+    Close proximity operations with non-cooperative targets represent a challenging scenario for the GNC system. 
+    Indeed, as the target does not give any information about its state, the chaser must rely solely on sensed information to determine the relative pose (i.e. position and attitude) of the target with respect to the chaser. 
+    For vision-based navigation, sensory information must be retrieved using a monocular camera, chosen for its low impact on the power, volume, and mass budget of the spacecraft. 
+    The vision-based navigation pipeline is made up of two blocks: the image processing, which extracts contextual information from the input images to obtain useful data for the pose estimation task, and the navigation filter, which refines the pose estimation (and pose derivatives) exploiting dynamical constraints.
+    The vision-based navigation algorithm shall run on space hardware, characterized by tight constraints in terms of memory and computational capabilities. Hence, the design and development chain shall be adapted to enable support in constraining environments in terms of computational speed and memory availability. Accuracy, latency and memory requirements for the navigation pipeline shall be consistent with the employed hardware, that represents a major driver for the overall performance of the algorithm.
     This article presents the optimization and deployment process of a robust AI-based vision-based navigation algorithm on representative space hardware. 
     The navigation pipeline is tailored to be robust to uncertainties in center-of-mass and inertia properties of the target, both on the image processing and the navigation filter. 
     The former is trained on a novel dataset, rendered with the high-fidelity SpiCam renderer by Thales Alenia Space, featuring a target with variable shape. The latter includes the uncertainties in the center of mass and the inertia of the target in a Schmidt-Kalman framework.
-    Before full processor-in-the-loop validation, a preliminary assessment of the algorithm performance on hardware is de-risked in both the image processing and the navigation filter, outlining the different orders of magnitude of the latency performance in various devices.
-    Then, the full algorithm pipeline is implemented for open-loop processor-in-the-loop testing, using representative boards for the two functional blocks.
+    Before processor-in-the-loop validation, a preliminary assessment of the algorithm performance on hardware is de-risked in both the image processing and the navigation filter, outlining the different orders of magnitude of the latency performance in various devices.
+    Then, the full algorithm pipeline is implemented for processor-in-the-loop testing, using representative boards for the two functional blocks.
     First, AI-based image processing is embedded in specialized hardware, such as CPU, GPU, and FPGA boards.
     To do that, dedicated optimizations are performed, such as quantization and graph optimizations, depending on the target hardware.
     Secondly, the navigation filter runs, using single-precision arithmetic, on a GR740 (LEON4 single-core) board, which represents common current onboard computer hardware in space systems. 
