@@ -26,31 +26,22 @@
 % NOTE: the template is not updated, got from Github
 
 % Max: 500 words
-% ~460 words
+% 467 words
 \begin{abstract}
-    Close proximity operations with non-cooperative targets represent a challenging scenario for the GNC system. 
-    Indeed, as the target does not give any information about its state, the chaser must rely solely on sensed information to determine the relative pose (i.e. position and attitude) of the target with respect to the chaser. 
-    For vision-based navigation, sensory information must be retrieved using a monocular camera, chosen for its low impact on the power, volume, and mass budget of the spacecraft. 
-    The vision-based navigation pipeline is made up of two blocks: the image processing, which extracts contextual information from the input images to obtain useful data for the pose estimation task, and the navigation filter, which refines the pose estimation (and pose derivatives) exploiting dynamical constraints.
-    The vision-based navigation algorithm shall run on space hardware, characterized by tight constraints in terms of memory and computational capabilities. Hence, the design and development chain shall be adapted to enable support in constraining environments in terms of computational speed and memory availability. Accuracy, latency and memory requirements for the navigation pipeline shall be consistent with the employed hardware, that represents a major driver for the overall performance of the algorithm.
-    This article presents the optimization and deployment process of a robust AI-based vision-based navigation algorithm on representative space hardware. 
-    The navigation pipeline is tailored to be robust to uncertainties in center-of-mass and inertia properties of the target, both on the image processing and the navigation filter. 
-    The former is trained on a novel dataset, rendered with the high-fidelity SpiCam renderer by Thales Alenia Space, featuring a target with variable shape. The latter includes the uncertainties in the center of mass and the inertia of the target in a Schmidt-Kalman framework.
-    Before processor-in-the-loop validation, a preliminary assessment of the algorithm performance on hardware is de-risked in both the image processing and the navigation filter, outlining the different orders of magnitude of the latency performance in various devices.
-    Then, the full algorithm pipeline is implemented for processor-in-the-loop testing, using representative boards for the two functional blocks.
-    First, AI-based image processing is embedded in specialized hardware, such as CPU, GPU, and FPGA boards.
-    To do that, dedicated optimizations are performed, such as quantization and graph optimizations, depending on the target hardware.
-    Secondly, the navigation filter runs, using single-precision arithmetic, on a GR740 (LEON4 single-core) board, which represents common current onboard computer hardware in space systems. 
-    Depending on the performance of the platform, the pipeline is adapted in terms of navigation filter tuning and measurement frequency.
-    For example, 8-bit neural network quantization causes lower accuracy in the neural network output, and a lower measurement frequency is needed for the full-CPU implementation compared to GPU and FPGA.
-    This analysis is performed on a synthetic testing trajectory rendered with the SpiCam tool, consisting of a close inspection relative orbit around a non-cooperative tumbling target in LEO.
+Close proximity operations are a critical phase of In-Orbit Servicing (IOS) missions, requiring the GNC system to ensure safety while meeting stringent performance requirements.
+When approaching a non-cooperative target, the chaser must rely solely on its sensors to determine the relative pose (i.e. position and attitude).
+Furthermore, the target might not be fully known onboard, meaning that there may be some uncertainty in the modeling of its visual appearance (e.g. surface optical properties, moving appendages configurations, etc.) and its dynamical properties (i.e. center of mass, inertia).
+Vision-based navigation (VBN) is one of the possible techniques that enables non-cooperative pose estimation. Monocular cameras are generally baselined as relative navigation sensors because of their low size, weight, and power. The VBN pipeline comprises two functional modules: the image processing, which extracts contextual information from the input images to generate a relative pose (or analogous) measurement, and the navigation filter, which refines the pose estimate by leveraging on a propagation model for the relative dynamics.
+In VBN algorithm design, hardware is a major driver. Indeed, space hardware imposes tight constraints on memory, computational power, and latency, which particularly affect image processing tasks due to the inherent data-intensive nature of images. Therefore, on-board hardware selection imposes a series of trade-offs that have a strong influence on the overall performance of the navigation chain. This article presents the optimization and deployment process of a robust AI-aided VBN algorithm on representative space hardware. The proposed end-to-end navigation solution, which includes image processing and a relative navigation filter, is tailored to be robust to uncertainties in the mass properties of the target. This is achieved on the AI-based image processing side by training a keypoint regression network on a dedicated synthetic dataset, rendered with the high-fidelity SpiCam renderer developed by Thales Alenia Space and featuring a target with variable shape. In the navigation filter, uncertainties are modeled within a Schmidt–Kalman Multiplicative Extended Kalman Filter by augmenting the state with center-of-mass and inertia parameters. The algorithm is tailored and optimized for space hardware. This is achieved by a preliminary feasibility assessment of the functional blocks for hardware selection, followed by hardware-specific optimizations.
+The navigation filter was tested on the GR740 board (LEON4 single core), proving to satisfy both a 10 Hz propagation requirement and a 1 Hz update requirement, leaving approximately 0.7 s for neural network execution.
+The neural network was implemented on CPU, GPU, and FPGA platforms. The GR740 CPU exhibited a runtime greater than 25 s, while the ZedBoard (ARM Cortex-A9) achieved execution times below 4 s, compatible with a 0.2 Hz update rate. The GPU and FPGA implementations, instead, met the 1 Hz requirement. However, the algorithm’s numerical performance is re-evaluated after quantization and graph-level optimizations, which generally impact output accuracy. This article presents the results of these design and development activities through processor-in-the-loop testing, comparing multiple representative hardware platforms.
 \end{abstract}
 
-\section*{Acknowledgments}
+% \section*{Acknowledgments}
 
-This work was conducted under EISI Agreement No. 4000144147, within the Open Space Innovation Platform (OSIP), through the support of the European Space Agency (ESA) and Thales Alenia Space France (TAS-F).
+% This work was conducted under EISI Agreement No. 4000144147, within the Open Space Innovation Platform (OSIP), through the support of the European Space Agency (ESA) and Thales Alenia Space France (TAS-F).
 
-\bibliographystyle{esacit}
-\bibliography{references}
+% \bibliographystyle{esacit}
+% \bibliography{references}
 
 \end{document}
